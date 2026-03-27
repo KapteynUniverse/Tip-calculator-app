@@ -1,80 +1,96 @@
-const inputs = document.querySelectorAll("input");
-const buttons = document.querySelectorAll("button");
-const invalid = document.querySelectorAll("span");
-const tip = document.getElementById("tip-per-person");
-const total = document.getElementById("total-per-person");
+// ELEMENTS
 const form = document.getElementById("form");
-let value;
-let inputType;
-var bill = 0;
-let customTip;
-let numberOfPeople;
-let tipPerPerson;
-let totalPerPerson;
+const tipEl = document.getElementById("tip-per-person");
+const totalEl = document.getElementById("total-per-person");
 
+const errBill = document.getElementById("err1");
+const errPeople = document.getElementById("err2");
+
+const customInput = document.getElementById("custom");
+const tipRadios = document.querySelectorAll('input[name="tip"]');
+
+// STATE
+const state = {
+  bill: 0,
+  tip: 0,
+  people: 1,
+};
+
+// EVENTS
 form.addEventListener("input", handleInput);
 
-buttons.forEach((button) =>
-  button.addEventListener("click", (e) => {
-    e.preventDefault();
-    customTip = e.target.dataset.value;
-    if (customTip === "reset") {
-      tip.innerHTML = "$0.00";
-      total.innerHTML = "$0.00";
-      inputs.forEach((input) => (input.value = ""));
-    } else {
-      tipPerPerson = divide(bill, divide(100, customTip));
-      totalPerPerson = plus(bill, tipPerPerson);
-      tip.innerHTML = "$" + tipPerPerson.toFixed(2);
-      total.innerHTML = "$" + totalPerPerson.toFixed(2);
-    }
-  })
-);
+form.addEventListener("reset", handleReset);
 
+// HANDLE INPUT
 function handleInput(e) {
-  value = parseFloat(e.target.value);
-  inputType = e.target.id;
+  const { id, value, name, type } = e.target;
 
-  switch (inputType) {
-    case "bill":
-      bill = value;
-      if (bill > 0) {
-        total.innerHTML = "$" + bill.toFixed(2);
-        invalid[0].classList.add("hidden");
-      } else {
-        invalid[0].classList.remove("hidden");
-        total.innerHTML = "$0.00";
-      }
-      break;
-
-    case "custom":
-      customTip = value;
-      tipPerPerson = divide(bill, divide(100, customTip));
-      totalPerPerson = plus(bill, tipPerPerson);
-      tip.innerHTML = "$" + tipPerPerson.toFixed(2);
-      total.innerHTML = "$" + totalPerPerson.toFixed(2);
-      break;
-
-    case "people":
-      numberOfPeople = value;
-      if (numberOfPeople <= 0) {
-        invalid[1].classList.remove("hidden");
-      } else {
-        tip.innerHTML = "$" + divide(tipPerPerson, numberOfPeople).toFixed(2);
-        total.innerHTML = divide(totalPerPerson, numberOfPeople).toFixed(2);
-        invalid[1].classList.add("hidden");
-      }
-      break;
-
-    default:
-      break;
+  // BILL
+  if (id === "bill") {
+    state.bill = parseFloat(value) || 0;
+    toggleError(errBill, state.bill <= 0);
   }
+
+  // PEOPLE
+  if (id === "people") {
+    state.people = parseFloat(value) || 0;
+    toggleError(errPeople, state.people <= 0);
+  }
+
+  // CUSTOM TIP
+  if (id === "custom") {
+    state.tip = parseFloat(value) || 0;
+
+    // uncheck radios if user types custom
+    tipRadios.forEach((radio) => (radio.checked = false));
+  }
+
+  // RADIO TIP
+  if (type === "radio" && name === "tip") {
+    state.tip = parseFloat(value);
+
+    // clear custom input if radio selected
+    customInput.value = "";
+  }
+
+  update();
 }
 
-function divide(x, y) {
-  return y ? x / y : 0;
+// UPDATE (calculate + render)
+function update() {
+  const { bill, tip, people } = state;
+
+  const tipTotal = bill * (tip / 100);
+  const total = bill + tipTotal;
+
+  const tipPerPerson = tipTotal / people;
+  const totalPerPerson = total / people;
+
+  render(tipPerPerson, totalPerPerson);
 }
 
-function plus(x, y) {
-  return x + y;
+// RENDER
+function render(tipValue, totalValue) {
+  tipEl.textContent = `$${tipValue.toFixed(2)}`;
+  totalEl.textContent = `$${totalValue.toFixed(2)}`;
+}
+
+// RESET
+function handleReset() {
+  // let browser reset inputs first, then sync state
+  setTimeout(() => {
+    state.bill = 0;
+    state.tip = 0;
+    state.people = 1;
+
+    render(0, 0);
+
+    toggleError(errBill, false);
+    toggleError(errPeople, false);
+  });
+}
+
+// ERROR TOGGLE
+function toggleError(el, show) {
+  el.classList.toggle("hidden", !show);
 }
