@@ -21,34 +21,43 @@
 /* RESET */
 /* Josh Comeau custom css reset */
 /* https://www.joshwcomeau.com/css/custom-css-reset/ */
+/* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-* {
+/* 2. Remove default margin */
+*:not(dialog) {
   margin: 0;
 }
 
-html,
-body {
-  height: 100%;
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
 }
 
 body {
+  /* 4. Increase line-height */
   line-height: 1.5;
+  /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
 }
 
+/* 6. Improve media defaults */
 img,
 picture,
 video,
 canvas,
 svg {
   display: block;
+  max-width: 100%;
 }
 
+/* 7. Inherit fonts for form controls */
 input,
 button,
 textarea,
@@ -56,6 +65,7 @@ select {
   font: inherit;
 }
 
+/* 8. Avoid text overflows */
 p,
 h1,
 h2,
@@ -66,9 +76,39 @@ h6 {
   overflow-wrap: break-word;
 }
 
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
 #root,
 #__next {
   isolation: isolate;
+}
+
+.sr-only {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
 }
 
 /* BASE STYLES */
@@ -92,12 +132,11 @@ main {
 .tip-calculator {
   background-color: var(--white);
   padding: 1em 0;
-  border-radius: 1em;
+  border-radius: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 20em;
-  max-width: 45em;
+  max-width: 67.5rem;
 }
 .input-section,
 .result-section {
@@ -126,12 +165,6 @@ main {
 }
 
 /* STYLES */
-.title {
-  font-size: 1.5rem;
-  color: var(--very-dark-cyan);
-  letter-spacing: 0.5em;
-  margin-block: 1.5em;
-}
 
 p {
   color: var(--grayish-cyan);
@@ -163,11 +196,11 @@ input:hover {
 }
 
 input:focus {
-  border: 0.125em solid var(--primary-strong-cyan);
+  border: 0.125rem solid var(--primary-strong-cyan);
 }
 
 input:invalid {
-  border: 0.125em solid tomato;
+  border: 0.125rem solid tomato;
 }
 
 .number::placeholder {
@@ -183,7 +216,7 @@ input:invalid {
 .people::before {
   content: "";
   position: absolute;
-  left: 0.5em;
+  left: 1rem;
   top: 60%;
   bottom: 0;
   width: 20px;
@@ -210,13 +243,13 @@ input,
 button {
   border: none;
   width: 100%;
-  border-radius: 0.25em;
+  border-radius: 0.5rem;
   padding-block: 0.25em;
 }
 
 .result-section {
   background-color: var(--very-dark-cyan);
-  border-radius: 0.75em;
+  border-radius: 1rem;
 }
 
 .amount__text {
@@ -249,9 +282,9 @@ button {
   display: none;
 }
 
-@media screen and (min-width: 60em) {
+@media screen and (min-width: 60rem) {
   .title {
-    margin-bottom: 3em;
+    margin-bottom: 3rem;
   }
   .tip-calculator {
     flex-direction: row;
@@ -277,7 +310,7 @@ button {
     padding: 1.5em;
   }
   .wrapper {
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
   }
   .custom {
     text-align: center;
