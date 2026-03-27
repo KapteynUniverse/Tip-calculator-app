@@ -25,13 +25,15 @@
         alt="SPLITTER"
         width="87"
         height="54"
+        class="logo"
       />
       <form id="form" class="tip-calculator">
         <section class="input-section">
           <div class="bill">
-            <label for="bill" class="flex-default"> Bill </label>
-            <span id="err1" class="invalid hidden">Can't be zero</span>
-
+            <label for="bill" class="flex-default">
+              Bill
+              <span id="err1" class="invalid hidden">Can't be zero</span></label
+            >
             <input
               id="bill"
               type="number"
@@ -47,16 +49,46 @@
           </div>
           <fieldset class="tip grid">
             <legend>Select Tip %</legend>
+            <input
+              id="tip-5"
+              type="radio"
+              name="tip"
+              value="5"
+              class="sr-only"
+            />
             <label for="tip-5">5%</label>
-            <input id="tip-5" type="radio" name="tip" value="5" />
+            <input
+              id="tip-10"
+              type="radio"
+              name="tip"
+              value="10"
+              class="sr-only"
+            />
             <label for="tip-10">10%</label>
-            <input id="tip-10" type="radio" name="tip" value="10" />
+            <input
+              id="tip-15"
+              type="radio"
+              name="tip"
+              value="15"
+              class="sr-only"
+            />
             <label for="tip-15">15%</label>
-            <input id="tip-15" type="radio" name="tip" value="15" />
+            <input
+              id="tip-20"
+              type="radio"
+              name="tip"
+              value="20"
+              class="sr-only"
+            />
             <label for="tip-20">20%</label>
-            <input id="tip-20" type="radio" name="tip" value="20" />
+            <input
+              id="tip-25"
+              type="radio"
+              name="tip"
+              value="25"
+              class="sr-only"
+            />
             <label for="tip-25">25%</label>
-            <input id="tip-25" type="radio" name="tip" value="25" />
             <label for="custom" class="sr-only">Custom Tip</label>
             <input
               id="custom"
@@ -64,14 +96,15 @@
               name="custom"
               placeholder="Custom"
               min="0"
-              value="0"
               inputmode="numeric"
               class="custom"
             />
           </fieldset>
           <div class="people">
-            <label for="people" class="flex-default"> Number of People </label>
-            <span id="err2" class="invalid hidden">Can't be zero</span>
+            <label for="people" class="flex-default">
+              Number of People
+              <span id="err2" class="invalid hidden">Can't be zero</span></label
+            >
             <input
               id="people"
               type="number"
@@ -93,14 +126,22 @@
                 <p class="amount__text">Tip Amount</p>
                 <p class="amount__sub-text">/ person</p>
               </div>
-              <p id="tip-per-person" class="amount__number">$0.00</p>
+              <p id="tip-per-person" class="amount__number" aria-live="polite">
+                $0.00
+              </p>
             </div>
             <div class="wrapper">
               <div class="amount">
                 <p class="amount__text">Total</p>
                 <p class="amount__sub-text">/ person</p>
               </div>
-              <p id="total-per-person" class="amount__number">$0.00</p>
+              <p
+                id="total-per-person"
+                class="amount__number"
+                aria-live="polite"
+              >
+                $0.00
+              </p>
             </div>
           </div>
           <button class="amount__button" type="reset">reset</button>

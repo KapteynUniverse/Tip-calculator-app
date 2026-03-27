@@ -115,18 +115,19 @@ h6 {
 /* Layout */
 
 body {
-  font-family: Space-Mono;
+  font-family: "Space Mono", monospace;
   font-size: var(--fs-p);
   min-height: 100dvh;
   background-color: var(--light-grayish-cyan);
-}
-
-main {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.logo {
+  margin-inline: auto;
+  margin-bottom: 5rem;
 }
 
 .tip-calculator {
@@ -138,9 +139,15 @@ main {
   align-items: center;
   max-width: 67.5rem;
 }
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
 .input-section,
 .result-section {
-  width: 90%;
+  flex: 1;
 }
 
 .grid {
@@ -161,38 +168,35 @@ main {
 .amount {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
 }
 
 /* STYLES */
 
-p {
+label:has(span),
+legend,
+.amount {
   color: var(--grayish-cyan);
   font-size: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .bill,
 .tip,
 .people {
-  margin-bottom: 1em;
-}
-
-.bill > p,
-.tip > p,
-.people > p {
-  margin-bottom: 0.75em;
+  margin-bottom: 1rem;
 }
 
 input {
   background-color: var(--very-light-cyan);
   text-align: right;
   padding: 1em;
-  outline: none;
+  outline-color: transparent;
   color: var(--very-dark-cyan);
 }
 
-input:hover {
-  cursor: pointer;
+input::placeholder {
+  color: var(--very-dark-cyan);
+  font-size: 1.25rem;
 }
 
 input:focus {
@@ -207,25 +211,16 @@ input:invalid {
   color: var(--light-grayish-cyan);
 }
 
-.bill,
-.people {
-  position: relative;
+#bill {
+  background-image: url("./assets/images/icon-dollar.svg");
+  background-repeat: no-repeat;
+  background-position: 1rem center;
 }
 
-.bill:before,
-.people::before {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  top: 60%;
-  bottom: 0;
-  width: 20px;
-  background: url("./assets/images/icon-dollar.svg");
+#people {
+  background-image: url("./assets/images/icon-person.svg");
   background-repeat: no-repeat;
-}
-.people::before {
-  background: url("./assets/images/icon-person.svg");
-  background-repeat: no-repeat;
+  background-position: 1rem center;
 }
 
 button {
@@ -241,10 +236,41 @@ button:hover {
 
 input,
 button {
-  border: none;
+  border-color: transparent;
   width: 100%;
   border-radius: 0.5rem;
   padding-block: 0.25em;
+}
+
+button[type="reset"] {
+  text-transform: uppercase;
+}
+
+label {
+  cursor: pointer;
+}
+
+input[type="radio"] ~ label {
+  text-align: center;
+  background-color: var(--very-dark-cyan);
+  color: var(--white);
+  display: inline-block;
+  border-radius: 0.5rem;
+  padding-block: 0.25em;
+}
+
+input[type="radio"]:focus + label {
+  outline: 4px solid var(--primary-strong-cyan);
+}
+
+input[type="radio"]:hover + label {
+  background-color: var(--light-grayish-cyan);
+  color: var(--very-dark-cyan);
+}
+
+input[type="radio"]:checked + label {
+  background-color: var(--primary-strong-cyan);
+  color: var(--very-dark-cyan);
 }
 
 .result-section {
@@ -295,6 +321,7 @@ button {
 
   .grid {
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
   }
 
   .input-section {
